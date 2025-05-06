@@ -1,0 +1,51 @@
+services:
+  app:
+    build: .
+    container_name: laravel_app
+    volumes:
+      - ./src:/var/www/html
+    depends_on:
+      - db
+    networks:
+      - league-net
+
+  web:
+    image: nginx:alpine
+    container_name: laravel_web
+    volumes:
+      - ./src:/var/www/html:ro
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - "8080:8080"
+    depends_on:
+      - app
+    networks:
+      - league-net
+
+  db:
+    image: postgres:16-alpine
+    container_name: league-forge_db
+    environment:
+      POSTGRES_DB: league_forge
+      POSTGRES_USER: codenova
+      POSTGRES_PASSWORD: password
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - league-net
+
+  adminer:
+    image: adminer:latest
+    container_name: laravel_adminer
+    ports:
+      - "8090:8090"
+    networks:
+      - league-net
+
+volumes:
+  db_data:
+
+networks:
+  league-net:

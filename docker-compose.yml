@@ -40,7 +40,7 @@ services:
     image: adminer:latest
     container_name: laravel_adminer
     ports:
-      - "8090:8090"
+      - "8090:8080"
     networks:
       - league-net
 

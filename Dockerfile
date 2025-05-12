@@ -6,11 +6,11 @@ RUN apt-get update \
 
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 WORKDIR /var/www/html
-COPY ./ /var/www/html
+COPY ./src/ /var/www/html
 RUN composer install --no-dev --optimize-autoloader --no-interaction
 
 FROM php:8.2-fpm
 WORKDIR /var/www/html
 COPY --from=builder /var/www/html /var/www/html
-EXPOSE 9090
+EXPOSE 9000
 CMD ["php-fpm"]

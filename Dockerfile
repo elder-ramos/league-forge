@@ -12,5 +12,5 @@ RUN composer install --no-dev --optimize-autoloader --no-interaction
 FROM php:8.2-fpm
 WORKDIR /var/www/html
 COPY --from=builder /var/www/html /var/www/html
-EXPOSE 9000
+EXPOSE 9090
 CMD ["php-fpm"]
